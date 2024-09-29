@@ -8,13 +8,11 @@
         @blur="leaveInput"
         clearable
       ></input>
-      <div class="list" v-show="isShow" @click="getInput">
-      <ul class="fleet">
-        <li v-for="item in filteredData" :key="item" @click="handleClick(item)">
+      <ul class="teams" v-show="isShow">
+        <li v-for="item in filteredData" :key="item" @mousedown="handleClick(item, $event)">
           {{ item }}
         </li>
       </ul>
-    </div>
     </div>
   </div>
 </template>
@@ -36,6 +34,7 @@ const search = () => {
 
 const getInput = () => {
   isShow.value = true;
+  console.log("input");
 };
 
 const leaveInput = () => {
@@ -43,7 +42,8 @@ const leaveInput = () => {
   console.log("leave");
 };
 
-const handleClick = (item) => {
+const handleClick = (item, event) => {
+  event.stopPropagation();
   clickedItem.value = item;
   input.value = item;
   console.log(input.value);
@@ -86,6 +86,8 @@ onMounted(async () => {
 .inputs {
   position: relative;
   top: 20%;
+  width: 300px;
+  height: 340px;
 }
 
 .input {
@@ -98,13 +100,23 @@ onMounted(async () => {
   height: 40px;
 }
 
-.list {
-    background-color: white;
-    width: 300px;
-    height: 300px;
-    margin: 0 auto;
-    border-radius: 5px;
-    box-sizing: border-box;
-    padding-top: 20px;
-  }
+.teams {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.teams li {
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.teams li:hover {
+  background-color: #e0e0e0;
+}
+
 </style>
