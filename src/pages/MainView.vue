@@ -24,7 +24,7 @@ import axios from 'axios';
 const input = ref("");
 const isShow = ref(false);
 const teamData = ref([]);
-const maxTeams = 20;
+const maxTeams = 10;
 const clickedItem = ref("");
 
 const search = () => {
@@ -57,18 +57,33 @@ const filteredData = computed(() => {
 });
 
 onMounted(async () => {
-  const options = {
-    method: "GET",
-    url: "https://api.jolpi.ca/ergast/f1/2024/constructors",
+  const option = {
+    url: "https://api.jolpi.ca/ergast/f1/constructors",
   };
 
+  let total = 0;
+  let limit = 0;
   try {
-    const response = await axios.request(options);
-    const constructors = response.data.MRData.ConstructorTable.Constructors;
-    teamData.value = constructors.map(item => item.name);
+    const response = await axios.request(option);
+    total = response.data.MRData.total;
+    limit = response.data.MRData.limit;
   } catch (error) {
     console.error(error);
   }
+
+  for (let i = 0; i < total / limit; i++) {
+    const options = {
+      url: "https://api.jolpi.ca/ergast/f1/constructors?offset=" + i * limit,
+    };
+    try {
+      const response = await axios.request(options);
+      const constructors = response.data.MRData.ConstructorTable.Constructors;
+      teamData.value.push(...constructors.map(item => item.name));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 });
 </script>
 
