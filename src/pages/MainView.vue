@@ -8,13 +8,13 @@
         @blur="leaveInput"
         clearable
       ></input>
-    </div>
-    <div class="list" v-show="isShow" @click="getInput">
+      <div class="list" v-show="isShow" @click="getInput">
       <ul class="fleet">
         <li v-for="item in filteredData" :key="item" @click="handleClick(item)">
           {{ item }}
         </li>
       </ul>
+    </div>
     </div>
   </div>
 </template>
@@ -78,11 +78,14 @@ onMounted(async () => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  justify-content: center;
   align-items: center;
   height: calc(100vh - 70px);
   width: 100vw;
-  margin: 0 auto;
+}
+
+.inputs {
+  position: relative;
+  top: 20%;
 }
 
 .input {
@@ -93,7 +96,6 @@ onMounted(async () => {
   font-size: 18px;
   width: 300px;
   height: 40px;
-  display: flex;
 }
 
 .list {
