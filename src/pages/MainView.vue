@@ -1,4 +1,8 @@
 <template>
+<div class="containers">
+  <div class="top">
+    <Header />
+  </div>
   <div class="container">
     <div class="inputs">
       <input class="input"
@@ -15,11 +19,17 @@
       </ul>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios';
+import Header from '../components/Header.vue';
+
+const router = useRouter();
+const route = useRoute();
 
 const input = ref("");
 const isShow = ref(false);
@@ -30,6 +40,7 @@ const clickedItem = ref("");
 const search = () => {
   // 跳转到结果页面
   console.log(input.value);
+  router.push('/result');
 };
 
 const getInput = () => {
@@ -46,7 +57,6 @@ const handleClick = (item, event) => {
   event.stopPropagation();
   clickedItem.value = item;
   input.value = item;
-  console.log(input.value);
   search();
 };
 
@@ -88,14 +98,27 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.top {
+  line-height: 1.5;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
 .container {
   background-image: url("../assets/background.avif");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  align-items: center;
+  display: flex;
+  justify-content: center;
   height: calc(100vh - 70px);
   width: 100vw;
+  position: absolute;
+  top: 70px;
+  left: 0px;
+  right: 0px;
 }
 
 .inputs {
