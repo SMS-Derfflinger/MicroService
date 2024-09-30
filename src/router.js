@@ -3,8 +3,8 @@ import MainView from './pages/MainView.vue';
 import Result from './pages/QueryResults.vue';
 
 const routes = [
-  { path: '/', component: MainView },
-  { path: '/result', component: Result },
+  { path: '/', name: 'home', component: MainView },
+  { path: '/result', name: 'Result', component: Result },
 ];
 
 const router = createRouter({

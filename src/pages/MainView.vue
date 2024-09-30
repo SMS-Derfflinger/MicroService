@@ -41,7 +41,7 @@ const clickedItem = ref("");
 const search = (item) => {
   // 跳转到结果页面
   console.log(input.value);
-  router.push('/result?id=' + item);
+  router.push({ path: "/result", query:{ id:item } });
 };
 
 const getInput = () => {
