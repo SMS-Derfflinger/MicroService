@@ -34,13 +34,14 @@ const route = useRoute();
 const input = ref("");
 const isShow = ref(false);
 const teamData = ref([]);
+const teamId = ref([]);
 const maxTeams = 10;
 const clickedItem = ref("");
 
-const search = () => {
+const search = (item) => {
   // 跳转到结果页面
   console.log(input.value);
-  router.push('/result');
+  router.push('/result?id=' + item);
 };
 
 const getInput = () => {
@@ -57,7 +58,8 @@ const handleClick = (item, event) => {
   event.stopPropagation();
   clickedItem.value = item;
   input.value = item;
-  search();
+  const index = teamData.value.indexOf(item);
+  search(teamId.value[index]);
 };
 
 const filteredData = computed(() => {
@@ -89,11 +91,11 @@ onMounted(async () => {
       const response = await axios.request(options);
       const constructors = response.data.MRData.ConstructorTable.Constructors;
       teamData.value.push(...constructors.map(item => item.name));
+      teamId.value.push(...constructors.map(item => item.constructorId));
     } catch (error) {
       console.error(error);
     }
   }
-
 });
 </script>
 
