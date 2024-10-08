@@ -8,22 +8,21 @@
       <h2>2024赛季</h2>
     </div>
     <nav class="nav">
-      <button @click="navigate('home')">主页</button>
-      <button @click="navigate('race')">比赛</button>
-      <button @click="navigate('standings')">排行榜</button>
+      <button @click="navigate('/')">主页</button>
+      <button @click="navigate('/race')">比赛</button>
+      <button @click="navigate('/ranking')">排行榜</button>
     </nav>
   </header>
 </template>
 
-<script>
-export default {
-  methods: {
-    navigate(page) {
-      console.log(`Navigating to ${page}`);
-      // this.$router.push('/' + page)
-    },
-  },
-};
+<script setup>
+import { useRoute, useRouter } from 'vue-router';
+const router = useRouter();
+
+const navigate = (page) => {
+  console.log(`Navigating to ${page}`);
+  router.push(page);
+}
 </script>
 
 <style scoped>

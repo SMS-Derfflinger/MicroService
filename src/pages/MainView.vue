@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 import Header from '../components/Header.vue';
 
