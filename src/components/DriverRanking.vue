@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="teamData" header-align="center" highlight-current-row>
+  <el-table :data="DriverData" header-align="center" highlight-current-row>
     <el-table-column
       prop="rank"
       label="排位"
@@ -62,7 +62,7 @@ import { ref, computed, onMounted } from 'vue';
 import image from '../assets/F1.png';
 import axios from 'axios';
 
-const teamData = ref([]);
+const DriverData = ref([]);
 onMounted(async () => {
   const option = {
     url: "https://api.jolpi.ca/ergast/f1/2024/driverstandings",
@@ -79,7 +79,7 @@ onMounted(async () => {
       if (array.DriverStandings[i].position == "1") {
         driver_number = "1";
       }
-      teamData.value.push({
+      DriverData.value.push({
         rank: array.DriverStandings[i].position,
         imageUrl: "",
         name: array.DriverStandings[i].Driver.givenName + " " + array.DriverStandings[i].Driver.familyName,
@@ -97,7 +97,7 @@ onMounted(async () => {
 
   for (let i = 0; i < total; i++) {
     const options = {
-      url: "https://api.openf1.org/v1/drivers?driver_number=" + teamData.value[i].driver_number,
+      url: "https://api.openf1.org/v1/drivers?driver_number=" + DriverData.value[i].driver_number,
     };
     let j = 0;
     try {
@@ -112,7 +112,7 @@ onMounted(async () => {
       if (url == null) {
         url = image;
       }
-      teamData.value[i].imageUrl = url;
+      DriverData.value[i].imageUrl = url;
     } catch (error) {
       console.error(error);
     }
