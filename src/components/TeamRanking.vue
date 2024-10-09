@@ -41,7 +41,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import image from '../assets/F1.png';
 import axios from 'axios';
 
 const teamData = ref([]);
@@ -78,28 +77,5 @@ onMounted(async () => {
   } catch (error) {
     console.error(error);
   }
-
-  /*for (let i = 0; i < total; i++) {
-    const options = {
-      url: "https://api.openf1.org/v1/drivers?driver_number=" + DriverData.value[i].driver_number,
-    };
-    let j = 0;
-    try {
-      const responses = await axios.request(options);
-      let url = responses.data[0].headshot_url;
-      for (; j < responses.data.length; j++) {
-        if (url != null) {
-          break;
-        }
-        url = responses.data[j].headshot_url;
-      }
-      if (url == null) {
-        url = image;
-      }
-      DriverData.value[i].imageUrl = url;
-    } catch (error) {
-      console.error(error);
-    }
-  }*/
 });
 </script>
