@@ -1,6 +1,12 @@
 <template>
   <el-table :data="raceData" header-align="center" highlight-current-row>
     <el-table-column
+      prop="round"
+      label="场次"
+      header-align="center"
+      align="center">
+    </el-table-column>
+    <el-table-column
       prop="date"
       label="时间"
       header-align="center"
@@ -35,7 +41,7 @@
       header-align="center"
       align="center">
       <template #default="scope">
-        <el-button @click="handleDelete(scope.row)" type="danger">查看</el-button>
+        <el-button @click="search(scope.row)" type="danger">查看</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -43,9 +49,19 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
+const router = useRouter();
+
 const raceData = ref([]);
+
+const search = (item) => {
+  // 跳转到结果页面
+  console.log(item.round);
+  router.push({ path: "/race-result", query:{ id:item.round } });
+};
+
 onMounted(async () => {
   const option = {
     url: "https://api.jolpi.ca/ergast/f1/2024/races",
@@ -58,11 +74,13 @@ onMounted(async () => {
     const array = response.data.MRData.RaceTable.Races;
     for (let i = 0; i < total; i++) {
       raceData.value.push({
+        round: array[i].round,
+        url: array[i].url,
         date: caculateDate(array[i].date, array[i].time),
         race: array[i].raceName,
         circuit: array[i].Circuit.circuitName,
         location: array[i].Circuit.Location.locality + " " + array[i].Circuit.Location.country,
-        status: isStatusEnd(array[i].date, array[i].time) ? "已结束" : "即将到来",
+        status: isStatusCompleted(array[i].date, array[i].time) ? "已结束" : "即将到来",
       });
     }
   } catch (error) {
@@ -76,7 +94,7 @@ function caculateDate(date, time) {
   return formattedDate;
 }
 
-function isStatusEnd(date, time) {
+function isStatusCompleted(date, time) {
   const dateTimeStr = `${date}T${time}`;
   const targetDateTime = new Date(dateTimeStr);
   const currentDateTime = new Date();

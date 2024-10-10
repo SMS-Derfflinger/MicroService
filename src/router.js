@@ -3,12 +3,14 @@ import MainView from './pages/MainView.vue';
 import Result from './pages/QueryResults.vue';
 import RankingView from './pages/RankingView.vue';
 import RaceView from './pages/RaceView.vue';
+import RaceResult from './pages/RaceResult.vue';
 
 const routes = [
   { path: '/', name: 'home', component: MainView },
   { path: '/result', name: 'result', component: Result },
   { path: '/ranking', name: 'ranking', component: RankingView },
   { path: '/race', name: 'race', component: RaceView },
+  { path: '/race-result', name: 'race-result', component: RaceResult },
 ];
 
 const router = createRouter({
