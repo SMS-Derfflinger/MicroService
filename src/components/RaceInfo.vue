@@ -1,7 +1,7 @@
 <template>
+  <h1>比赛信息</h1>
   <div class="container">
     <div class="race-info">
-      <h1>比赛信息</h1>
       <div v-html="raceTime"></div>
       <div v-html="raceLocation"></div>
       <div v-html="raceLaps"></div>
