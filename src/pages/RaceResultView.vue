@@ -7,6 +7,7 @@
       <RaceIntro />
       <CircuitInfo />
       <RaceInfo />
+      <RaceResult />
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import Header from '../components/Header.vue';
 import RaceIntro from '../components/RaceIntro.vue';
 import CircuitInfo from '@/components/CircuitInfo.vue';
 import RaceInfo from '@/components/RaceInfo.vue';
+import RaceResult from '@/components/RaceResult.vue';
 
 export default {
   components: {
@@ -23,6 +25,7 @@ export default {
     RaceIntro,
     CircuitInfo,
     RaceInfo,
+    RaceResult,
   },
 }
 </script>

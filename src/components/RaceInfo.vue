@@ -13,6 +13,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import image from '../assets/F1.png';
 import axios from 'axios';
 
 const router = useRouter();
@@ -26,7 +27,7 @@ const imageUrl = ref('');
 
 onMounted(async () => {
   const option0 = {
-    url: "https://api.jolpi.ca/ergast/f1/2024/" + route.query.id + "/results",
+    url: "https://api.jolpi.ca/ergast/f1/2024/" + route.query.id,
   };
   try {
     const response0 = await axios.request(option0);
@@ -49,8 +50,13 @@ onMounted(async () => {
   };
   try {
     const response1 = await axios.request(option1);
-    raceLaps.value += response1.data.response[0].laps.total;
-    imageUrl.value += response1.data.response[0].circuit.image;
+    if (response1.data.response[0]) {
+      raceLaps.value += response1.data.response[0].laps.total;
+      imageUrl.value += response1.data.response[0].circuit.image;
+    } else {
+      raceLaps.value += '暂无';
+      imageUrl.value = image;
+    }
   } catch (error) {
     console.error(error);
   }
