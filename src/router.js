@@ -3,7 +3,7 @@ import MainView from './pages/MainView.vue';
 import Result from './pages/QueryResults.vue';
 import RankingView from './pages/RankingView.vue';
 import RaceView from './pages/RaceView.vue';
-import RaceResult from './pages/RaceResult.vue';
+import RaceResult from './pages/RaceResultView.vue';
 
 const routes = [
   { path: '/', name: 'home', component: MainView },

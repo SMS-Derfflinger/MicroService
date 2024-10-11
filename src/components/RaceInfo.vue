@@ -1,8 +1,12 @@
 <template>
-  <div class="race-info">
-    <h1>比赛简介</h1>
-    <div v-html="raceInfo"></div>
-    <div v-html="moreInfo"></div>
+  <div class="container">
+    <div class="race-info">
+      <h1>比赛信息</h1>
+      <div v-html="raceTime"></div>
+      <div v-html="raceLocation"></div>
+      <div v-html="raceLaps"></div>
+    </div>
+    <img :src="imageUrl" alt="Image" style="width: 400px; height: 200px; margin-right: 10px;" />
   </div>
 </template>
 
@@ -14,39 +18,48 @@ import axios from 'axios';
 const router = useRouter();
 const route = useRoute();
 
-const raceInfo = ref('');
-const raceName = ref('');
-const moreInfo = ref('');
+const raceTime = ref('时间：');
+const raceLocation = ref('地点：');
+const raceLaps = ref('圈数：');
+const date = ref('');
+const imageUrl = ref('');
 
 onMounted(async () => {
-  const option = {
-    url: "https://api.jolpi.ca/ergast/f1/2024/" + route.query.id,
+  const option0 = {
+    url: "https://api.jolpi.ca/ergast/f1/2024/" + route.query.id + "/results",
   };
   try {
-    const response = await axios.request(option);
-    const urlResult = response.data.MRData.RaceTable.Races[0] == null ? "" : response.data.MRData.RaceTable.Races[0].url;
-    moreInfo.value = urlResult == null ? "" : "更多详细信息：" + '<a href=' + urlResult + ' target="_blank">' + urlResult + '</a>';
-    raceName.value = getTitleFromUrl(urlResult);
+    const response0 = await axios.request(option0);
+    //const response1 = await axios.request(option1);
+    const array = response0.data.MRData.RaceTable.Races[0];
+    date.value = array.date;
+    raceTime.value += array.date + ' ' + array.time;
+    raceLocation.value += array.Circuit.Location.locality + ' ' + array.Circuit.Location.country;
   } catch (error) {
     console.error(error);
   }
-  if (raceName.value === "") {
-    raceInfo.value = '未找到详细信息';
-    return;
-  }
 
+  const option1 = {
+    url: "https://v1.formula-1.api-sports.io/races?date=" + date.value + "&type=race",
+    method: "GET",
+    headers: {
+      "x-rapidapi-host": "v1.formula-1.api-sports.io",
+      "x-rapidapi-key": "3560aa0b216bf9a4d7c5b1be7cb60365",
+    },
+  };
   try {
-    const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${raceName.value}&prop=extracts&exintro&explaintext&origin=*&redirects=1`);
-    const data = await response.json();
-    const page = Object.values(data.query.pages)[0];
-    raceInfo.value = page.extract || '未找到详细信息';
+    const response1 = await axios.request(option1);
+    raceLaps.value += response1.data.response[0].laps.total;
+    imageUrl.value += response1.data.response[0].circuit.image;
   } catch (error) {
     console.error(error);
   }
-});
 
-const getTitleFromUrl = (url) => {
-  const parts = url.split('/');
-  return parts[parts.length - 1]; // 获取最后一部分
-};
+});
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+}
+</style>
