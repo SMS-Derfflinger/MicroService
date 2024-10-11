@@ -4,19 +4,22 @@
       <Header />
     </div>
     <div class="body">
-      <Race />
+      <RaceInfo />
+      <CircuitInfo />
     </div>
   </div>
 </template>
 
 <script>
 import Header from '../components/Header.vue';
-import Race from '../components/RaceInfo.vue';
+import RaceInfo from '../components/RaceInfo.vue';
+import CircuitInfo from '@/components/CircuitInfo.vue';
 
 export default {
   components: {
     Header,
-    Race,
+    RaceInfo,
+    CircuitInfo,
   },
 }
 </script>

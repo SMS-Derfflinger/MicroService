@@ -1,21 +1,21 @@
 <template>
-  <div class="race-info">
-    <h1>比赛简介</h1>
-    <div v-html="raceInfo"></div>
+  <div class="circuit-info">
+    <h1>场地简介</h1>
+    <div v-html="circuitInfo"></div>
     <div v-html="moreInfo"></div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, popScopeId } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
 
 const router = useRouter();
 const route = useRoute();
 
-const raceInfo = ref('');
-const raceName = ref('');
+const circuitInfo = ref('');
+const circuitName = ref('');
 const moreInfo = ref('');
 
 onMounted(async () => {
@@ -24,22 +24,22 @@ onMounted(async () => {
   };
   try {
     const response = await axios.request(option);
-    const urlResult = response.data.MRData.RaceTable.Races[0] == null ? "" : response.data.MRData.RaceTable.Races[0].url;
+    const urlResult = response.data.MRData.RaceTable.Races[0] == null ? "" : response.data.MRData.RaceTable.Races[0].Circuit.url;
     moreInfo.value = urlResult == null ? "" : "更多详细信息：" + '<a href=' + urlResult + ' target="_blank">' + urlResult + '</a>';
-    raceName.value = getTitleFromUrl(urlResult);
+    circuitName.value = getTitleFromUrl(urlResult);
   } catch (error) {
     console.error(error);
   }
-  if (raceName.value === "") {
-    raceInfo.value = '未找到详细信息';
+  if (circuitName.value === "") {
+    circuitInfo.value = '未找到详细信息';
     return;
   }
 
   try {
-    const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${raceName.value}&prop=extracts&exintro&explaintext&origin=*&redirects=1`);
+    const response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&titles=${circuitName.value}&prop=extracts&exintro&explaintext&origin=*&redirects=1`);
     const data = await response.json();
     const page = Object.values(data.query.pages)[0];
-    raceInfo.value = page.extract || '未找到详细信息';
+    circuitInfo.value = page.extract || '未找到详细信息';
   } catch (error) {
     console.error(error);
   }
@@ -47,6 +47,6 @@ onMounted(async () => {
 
 const getTitleFromUrl = (url) => {
   const parts = url.split('/');
-  return parts[parts.length - 1]; // 获取最后一部分
+  return parts[parts.length - 1].split('#')[0]; // 获取最后一部分
 };
 </script>
