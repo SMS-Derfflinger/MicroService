@@ -4,6 +4,7 @@
   </div>
   <div class="body">
     <QueryResult />
+    <DriverInTeam />
   </div>
 </template>
 
@@ -12,6 +13,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Header from '../components/Header.vue';
 import QueryResult from '@/components/QueryResult.vue';
+import DriverInTeam from '@/components/DriverInTeam.vue';
 </script>
 
 <style scoped>
