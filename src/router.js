@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import MainView from './pages/MainView.vue';
-import Result from './pages/QueryResults.vue';
+import Result from './pages/QueryResultsView.vue';
 import RankingView from './pages/RankingView.vue';
 import RaceView from './pages/RaceView.vue';
 import RaceResult from './pages/RaceResultView.vue';

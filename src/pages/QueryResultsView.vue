@@ -2,22 +2,16 @@
   <div class="top">
     <Header/>
   </div>
-  <button @click=print ></button>
+  <div class="body">
+    <QueryResult />
+  </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
 import Header from '../components/Header.vue';
-
-const router = useRouter();
-const route = useRoute();
-
-const print= () => {
-  console.log(route.query.id);
-}
-
+import QueryResult from '@/components/QueryResult.vue';
 </script>
 
 <style scoped>
@@ -29,4 +23,13 @@ const print= () => {
   right: 0px;
 }
 
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50vw;
+  position: absolute;
+  top: 70px;
+  left: 25vw;
+}
 </style>
