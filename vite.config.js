@@ -12,5 +12,14 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
-  }
+  },
+  server: {
+    proxy: {
+      '/openf1': {
+        target: 'https://api.openf1.org/v1',
+        changeOrigin: true,
+        rewrite: (path) =>  path.replace(/^\/openf1/, '')
+      },
+    },
+  },
 })

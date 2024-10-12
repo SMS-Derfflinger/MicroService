@@ -95,29 +95,26 @@ onMounted(async () => {
     console.error(error);
   }
 
-  for (let i = 0; i < total; i++) {
+  fetchDriverImages();
+});
+
+const fetchDriverImages = async () => {
+  const promises = DriverData.value.map(async (driver) => {
     const options = {
-      url: "https://api.openf1.org/v1/drivers?driver_number=" + DriverData.value[i].driver_number,
+      url: `/openf1/drivers?driver_number=${driver.driver_number}`,
     };
-    let j = 0;
     try {
-      const responses = await axios.request(options);
-      let url = responses.data[0].headshot_url;
-      for (; j < responses.data.length; j++) {
-        if (url != null) {
-          break;
-        }
-        url = responses.data[j].headshot_url;
-      }
-      if (url == null) {
-        url = image;
-      }
-      DriverData.value[i].imageUrl = url;
+      const response = await axios.request(options);
+      const validUrl = response.data.find(item => item.headshot_url) || { headshot_url: image };
+      driver.imageUrl = validUrl.headshot_url;
     } catch (error) {
       console.error(error);
+      driver.imageUrl = image;
     }
-  }
-});
+  });
+
+  await Promise.all(promises);
+};
 
 function calculateAge(birthDateString) {
   const birthDate = new Date(birthDateString);
