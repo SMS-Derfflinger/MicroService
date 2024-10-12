@@ -4,7 +4,8 @@
   </div>
   <div class="body">
     <QueryResult />
-    <DriverInTeam />
+    <HistoryDriver />
+    <CurrentDriver />
   </div>
 </template>
 
@@ -13,7 +14,8 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Header from '../components/Header.vue';
 import QueryResult from '@/components/QueryResult.vue';
-import DriverInTeam from '@/components/DriverInTeam.vue';
+import HistoryDriver from '@/components/HistoryDriver.vue';
+import CurrentDriver from '@/components/CurrentDriver.vue';
 </script>
 
 <style scoped>
@@ -29,9 +31,9 @@ import DriverInTeam from '@/components/DriverInTeam.vue';
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 50vw;
+  width: 80vw;
   position: absolute;
   top: 70px;
-  left: 25vw;
+  left: 10vw;
 }
 </style>
